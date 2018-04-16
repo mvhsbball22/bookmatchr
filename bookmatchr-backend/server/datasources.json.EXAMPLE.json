@@ -1,0 +1,12 @@
+{
+  "mongoBooks": {
+    "host": "*****",
+    "port": "*****",
+    "url": "mongodb://*****",
+    "database": "*****",
+    "password": "*****",
+    "name": "*****",
+    "user": "*****",
+    "connector": "mongodb"
+  }
+}
