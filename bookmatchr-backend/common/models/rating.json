@@ -1,0 +1,45 @@
+{
+  "name": "rating",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "character": {
+      "type": "number",
+      "required": true
+    },
+    "language": {
+      "type": "number",
+      "required": true
+    },
+    "setting": {
+      "type": "number",
+      "required": true
+    },
+    "story": {
+      "type": "number",
+      "required": true
+    },
+    "stars": {
+      "type": "number"
+    },
+    "bookId": {
+      "type": "string",
+      "required": true
+    },
+    "userId": {
+      "type": "string",
+      "required": true
+    },
+    "dateAdded": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,12 @@
+{
+  "mongoBooks": {
+    "host": "mlab.com",
+    "port": 55690,
+    "url": "mongodb://bookmatchr:***REMOVED***@ds055690.mlab.com:55690/bookmatchr",
+    "database": "bookmatchr",
+    "password": "***REMOVED***",
+    "name": "mongoBooks",
+    "user": "bookmatchr",
+    "connector": "mongodb"
+  }
+}

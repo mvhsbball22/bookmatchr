@@ -1,0 +1,9 @@
+.content {
+	text-align: justify;
+}
+
+.panel-heading {
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow: hidden;
+}

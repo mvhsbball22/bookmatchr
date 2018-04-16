@@ -1,0 +1,19 @@
+{
+  "defaultConnection": "default",
+  "connections": {
+    "default": {
+      "connector": "strapi-mongoose",
+      "settings": {
+        "client": "mongo",
+        "host": "ds055690.mlab.com",
+        "port": "55690",
+        "database": "bookmatchr",
+        "username": "bookmatchr",
+        "password": "***REMOVED***",
+        "authenticationDatabase": "",
+        "ssl": false
+      },
+      "options": {}
+    }
+  }
+}
