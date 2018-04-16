@@ -1,3 +1,10 @@
+# sensitive files
+/bookmatchr-strapi/config/environments/development/database.json
+/bookmatchr-backend/server/datasources.json
+
+# bfg jar
+bfg.jar
+
 # Logs
 logs
 *.log
