@@ -1,6 +1,7 @@
 # sensitive files
 /bookmatchr-strapi/config/environments/development/database.json
 /bookmatchr-backend/server/datasources.json
+awsmobilejs
 
 # bfg jar
 bfg.jar

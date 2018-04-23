@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-amplify": "^0.3.0",
+    "aws-amplify-react": "^0.1.41",
     "bulma": "^0.7.0",
     "bulma-extensions": "^1.0.14",
     "react": "^16.3.1",
@@ -11,7 +13,7 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

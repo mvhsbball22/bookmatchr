@@ -8,7 +8,7 @@ class BookFetch extends React.Component {
 		this.state = {
 			isLoading: true,
 			books: [],
-			bookCount: 0,
+			//bookCount: 0,
 			page: 1,
 			perPage: 12,
 			skipBooks: 0,
@@ -116,7 +116,7 @@ class BookFetch extends React.Component {
 	}
 
 	render() {
-		const { isLoading, books, bookCount, page, skipBooks } = this.state;
+		const { isLoading, books, page, skipBooks } = this.state;
 		console.log(
 			"Currently on page: " +
 				page +
@@ -139,10 +139,7 @@ class BookFetch extends React.Component {
 											<div className="card">
 												<div className="card-image">
 													<figure className="image is-4by3">
-														<img
-															src="https://bulma.io/images/placeholders/1280x960.png"
-															alt="Placeholder"
-														/>
+														<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder" />
 													</figure>
 												</div>
 												<div className="card-content">

@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import "./ShowBook.css";
 import FakeRatings from "./FakeRatings.js";
+import AmazonBuyButton from "./AmazonBuyButton.js";
 
 class ShowBook extends React.Component {
 	constructor(props) {
@@ -46,6 +47,7 @@ class ShowBook extends React.Component {
 				<p>ISBN10: {this.state.ISBN10}</p>
 				<p>ISBN13: {this.state.ISBN13}</p>
 				<p>Summary: {this.state.summary}</p>
+				<AmazonBuyButton isbn10={this.props.ISBN10} /> 
 				<Route path="/book/:id/fakeratings" component={FakeRatings} />
 			</div>
 		);
