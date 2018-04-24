@@ -2,6 +2,10 @@
 /bookmatchr-strapi/config/environments/development/database.json
 /bookmatchr-backend/server/datasources.json
 awsmobilejs
+/bookmatchr-feathers/config/
+
+# node modules (should be able to build from package.json)
+node_modules
 
 # bfg jar
 bfg.jar

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Route } from "react-router-dom";
 import 'bulma/css/bulma.css';
 
-import Amplify, { Auth, Hub, Logger } from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
 import aws_exports from './aws-exports';
 
 import './App.css';

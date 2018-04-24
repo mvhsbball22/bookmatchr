@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./BookFetch.css";
+import horizPlaceholderCover from "../images/1280x960.png"
 
 class BookFetch extends React.Component {
 	constructor(props) {
@@ -10,7 +11,7 @@ class BookFetch extends React.Component {
 			books: [],
 			//bookCount: 0,
 			page: 1,
-			perPage: 12,
+			perPage: 9,
 			skipBooks: 0,
 			needNextPageButton: false,
 			needPrevPageButton: false
@@ -29,9 +30,11 @@ class BookFetch extends React.Component {
 		//determine whether we need a next page button
 		let needNextCalc = this.state.page * this.state.perPage;
 		let doesNeedNext = needNextCalc <= this.state.bookCount;
+		
 		//determine whether we need a previous page button
 		let doesNeedPrev = this.state.skipBooks > 0;
 
+		//set state based on which buttons we need
 		if (doesNeedNext !== this.state.needNextPageButton) {
 			this.setState({
 				needNextPageButton: doesNeedNext
@@ -42,6 +45,7 @@ class BookFetch extends React.Component {
 				needPrevPageButton: doesNeedPrev
 			});
 		}
+		//dummy logging to check state of buttons
 		console.log(
 			this.state.needPrevPageButton,
 			this.state.needNextPageButton
@@ -82,28 +86,30 @@ class BookFetch extends React.Component {
 		);
 
 		// Getting the number of books and setting state to reflect that number
-		fetch("http://127.0.0.1:3002/api/Books/count")
+		fetch("http://www.bookmatch.tk:3030/book?$limit=0")
 			.then(response => response.json())
 			.then(parsedJSON =>
 				this.setState({
-					bookCount: parsedJSON.count
+					bookCount: parsedJSON.total
 				})
 			);
 		// Fetching books and setting state to those books
 
 		fetch(
-			"http://127.0.0.1:3002/api/Books?filter[limit]=" +
+			"http://www.bookmatch.tk:3030/book?$limit=" +
 				this.state.perPage +
-				"&filter[skip]=" +
-				this.state.skipBooks
+				"&$skip=" +
+				this.state.skipBooks +
+				"&$sort[id]=1"
 		)
 			.then(response => response.json())
+			//.then(parsedJSON => console.log(parsedJSON))
 			.then(parsedJSON =>
-				parsedJSON.map(book => ({
+				parsedJSON.data.map(book => ({
 					title: `${book.title}`,
-					author: `${book.author}`,
+					author: `${book.authors[0].name}`,
 					summary: `${book.summary}`,
-					id: `${book.id}`
+					isbn10: `${book.isbn10}`
 				}))
 			)
 			.then(books =>
@@ -135,11 +141,11 @@ class BookFetch extends React.Component {
 										className="column is-one-third"
 										key={book.title}
 									>
-										<Link to={`/book/${book.id}`}>
+										<Link to={`/book/${book.isbn10}`}>
 											<div className="card">
 												<div className="card-image">
 													<figure className="image is-4by3">
-														<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder" />
+														<img src={horizPlaceholderCover} alt="Placeholder" />
 													</figure>
 												</div>
 												<div className="card-content">
