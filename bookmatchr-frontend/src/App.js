@@ -13,6 +13,7 @@ import ShowBook from './containers/ShowBook.js'
 // import FakeRatings from './containers/FakeRatings.js'
 import About from './containers/About.js'
 import Login from './containers/Login.js'
+import BookSearch from './containers/BookSearch.js'
 
 Amplify.configure(aws_exports);
 
@@ -95,6 +96,7 @@ class App extends Component {
         <Route exact path='/books' component={BookFetch} />
         <Route path='/book/:id' component={ShowBook} />
         <Route exact path='/login' component={Login} />
+        <Route path='/search' component={BookSearch} />
 
       </div>
     );

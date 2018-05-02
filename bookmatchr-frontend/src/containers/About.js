@@ -1,7 +1,5 @@
 import React from 'react';
 
-// import images for the layour
-import charactersSectionHeader from "../images/characters-section-header.jpg"
 
 class About extends React.Component {
 

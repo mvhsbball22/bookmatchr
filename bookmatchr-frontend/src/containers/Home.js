@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
-import 'bulma/css/bulma.css';
+import "bulma/css/bulma.css";
 import { NavLink } from "react-router-dom";
 
 class Home extends React.Component {

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BookFetch.css";
 import horizPlaceholderCover from "../images/1280x960.png"
+import Truncate from 'react-truncate';
 
 class BookFetch extends React.Component {
 	constructor(props) {
@@ -160,7 +161,9 @@ class BookFetch extends React.Component {
 													</div>
 													<br />
 													<div className="content">
-														{book.summary}
+														<Truncate lines={12} ellipsis={<span>...</span>}>
+															{book.summary}							
+														</Truncate>	
 													</div>
 												</div>
 											</div>
