@@ -14,6 +14,7 @@ import ShowBook from './containers/ShowBook.js'
 import About from './containers/About.js'
 import Login from './containers/Login.js'
 import BookSearch from './containers/BookSearch.js'
+import AddBook from './containers/AddBook.js'
 
 Amplify.configure(aws_exports);
 
@@ -79,6 +80,11 @@ class App extends Component {
             <div className="navbar-item">
               <NavLink to='/'><img src='/bookmatch_logo.png' alt="Our logo"/></NavLink>
             </div>
+            <a role="button" className="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
           </div>
           <div className="navbar-end">
             <div className="navbar-item is-black">
@@ -97,6 +103,7 @@ class App extends Component {
         <Route path='/book/:id' component={ShowBook} />
         <Route exact path='/login' component={Login} />
         <Route path='/search' component={BookSearch} />
+        <Route path='/addBook/:id' component={AddBook} />
 
       </div>
     );

@@ -7,22 +7,16 @@ import 'bulma/css/bulma.css';
 
 //dummy import to get placeholder images
 import placeholder_chart from '../images/placeholder_chart.png';
-import placeholder_cover from '../images/480x600.png';
 
 class ShowBook extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: "",
-			authors: [],
-			isbn10: "",
-			isbn13: "",
-			summary: ""
-
+			authors: []
 		};
 	}
 
-	fetchBook() {
+	async fetchBook() {
 		console.log(
 			"Going to fetch a book by its isbn10: " + this.props.match.params.id
 		);
@@ -36,15 +30,15 @@ class ShowBook extends React.Component {
 					authors: parsedJSON.data[0].authors,
 					ISBN10: parsedJSON.data[0].isbn10,
 					ISBN13: parsedJSON.data[0].isbn13,
-					summary: parsedJSON.data[0].summary
+					summary: parsedJSON.data[0].summary,
+					cover: parsedJSON.data[0].cover
 				})
-			)
-			.then(console.log(this.state.authors));
+			);
 	}
 
 	componentDidMount(props) {
-		console.log("we mounted");
-		console.log(this.props.match.params.authors);
+		console.log(this.props.location.state.existed);
+		
 		this.fetchBook();
 	}
 
@@ -54,7 +48,7 @@ class ShowBook extends React.Component {
 			<div className="column is-3">
 				<div>
 					<figure className="image is-4x5 is-padded">
-						<img src={placeholder_cover} alt="Placeholder for the cover of books" />
+						<img src={this.state.cover} alt="Book Cover" />
 					</figure>
 				</div>
 				<div />

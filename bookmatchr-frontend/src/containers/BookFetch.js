@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./BookFetch.css";
-import horizPlaceholderCover from "../images/1280x960.png"
 import Truncate from 'react-truncate';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 class BookFetch extends React.Component {
 	constructor(props) {
@@ -110,7 +110,8 @@ class BookFetch extends React.Component {
 					title: `${book.title}`,
 					author: `${book.authors[0].name}`,
 					summary: `${book.summary}`,
-					isbn10: `${book.isbn10}`
+					isbn10: `${book.isbn10}`,
+					cover: `${book.cover}`
 				}))
 			)
 			.then(books =>
@@ -134,7 +135,7 @@ class BookFetch extends React.Component {
 
 		return (
 			<div>
-				<div className="columns is-multiline">
+				<div className="columns is-multiline is-centered">
 					{!isLoading && books.length > 0
 						? books.map(book => {
 								return (
@@ -144,29 +145,25 @@ class BookFetch extends React.Component {
 									>
 										<Link to={`/book/${book.isbn10}`}>
 											<div className="card">
-												<div className="card-image">
-													<figure className="image is-4by3">
-														<img src={horizPlaceholderCover} alt="Placeholder" />
+											  <div className="card-content">
+											    <div className="media">
+											      <div className="media-left">
+											        <figure className="image">
+														<img src={book.cover} alt="Placeholder" className="coverImg" />
 													</figure>
-												</div>
-												<div className="card-content">
-													<div className="media-content">
-														<p className="title is-4">
-															{book.title}
-														</p>
-														<p className="subtitle is-6">
-															by{" "}
-															<b>{book.author}</b>
-														</p>
-													</div>
-													<br />
-													<div className="content">
-														<Truncate lines={12} ellipsis={<span>...</span>}>
-															{book.summary}							
-														</Truncate>	
-													</div>
-												</div>
-											</div>
+											      </div>
+											      <div className="media-content">
+											        <p className="title is-6">{book.title}</p>
+											        <p className="subtitle is-7">by {book.author}</p>
+											      </div>
+											    </div>
+											    <div className="content has-text-justified">
+											      <Truncate lines={12} ellipsis={<span>...</span>}>	  
+											      	{book.summary}											      
+											      </Truncate>
+											    </div>
+											  </div>
+											</div>	
 										</Link>
 									</div>
 								);
