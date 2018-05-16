@@ -72,36 +72,45 @@ class ShowBook extends React.Component {
 			</div>
 			<div className="column is-8">
 				<div className="level">
-					<div className="column is-one-quarter">
+					<div className="column is-one-fifth">
 						<figure className="image is-4x5 is-padded">
 							<img src={this.state.cover} alt="Book Cover" className="max195" />
 						</figure>
-					</div>	
-					<div className="column is-one-quarter">
-						<div className="is-size-4 has-text-left">
-							{this.state.title}
+					</div>
+					<div className="column">
+						<div className="columns">
+							<div className="column is-size-4 has-text-left">
+								{this.state.title}
+							</div>
 						</div>
-						<div className="has-text-left">
-							<span>by </span>{this.state.authors.map((author, i) => <span key={i}> {author.name}  </span>)}
+						<div className="columns">
+							<div className="column has-text-left">
+								<span>by </span>{this.state.authors.map((author, i) => <span key={i}> {author.name}  </span>)}
+							</div>
 						</div>
-						<br />
-						<div className="has-text-left">
-							<a href={`http://www.amazon.com/dp/${this.state.ISBN10}/?tag=bookmatchr-20`}><img src={AmazonBuyButton} alt="Buy from Amazon!" /></a>
+						<div className="columns">
+							<div className="column has-text-left">
+									<a href={`http://www.amazon.com/dp/${this.state.ISBN10}/?tag=bookmatchr-20`}><img src={AmazonBuyButton} alt="Buy from Amazon!" /></a>
+							</div>
 						</div>
 					</div>
-					<div className="column is-one-quarter">
+				</div>
+				<div className="level">					
+					<div className="has-text-justified">
+						{this.state.summary}
+					</div>	
+				</div>
+				<div className="level">
+					<div className="column is-two-fifths">
 						<div>
 							<DoorwaysPieChart doorwaysScoreArray={this.state.doorwaysScore} />
 						</div>
 					</div>
-					<div className="column is-one-quarter">
+					<div className="column">
 						<div>
 							<DoorwayList user={this.state.user} id={this.state.id} doorwaysScore={this.state.doorwaysScore} fetchBook={this.fetchBook} />
 						</div>
 					</div>	
-				</div>
-				<div className="has-text-justified">
-					{this.state.summary}
 				</div>
 				<div className="column is-narrow">
 

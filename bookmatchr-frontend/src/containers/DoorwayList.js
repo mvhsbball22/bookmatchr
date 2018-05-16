@@ -32,16 +32,14 @@ const SortableItem = SortableElement(({value}) => {
     <div className="level is-mobile boxElement">
         <div className="level-left">
             <div className="level-item contain">
+            <i class="fas fa-bars"></i>
+            </div>
+            <div className="level-item contain">
                 <img src={ require(`../assets/images/${icon}.svg`) } alt="DoorwayIcon" className="contain" />
             </div>
         </div>
-        <div className="level-item">
-            <p className="level-item"><strong>{value}</strong></p>
-        </div>
         <div className="level-right">
-            <div className="level-item contain">
-                <img src={ require(`../assets/images/drag-reorder.png`) } alt="Drag to Reorder Doorways" className="contain-small" />
-            </div>
+            <p className="level-item"><strong>{value}</strong></p>
         </div>
     </div>
 
@@ -244,6 +242,6 @@ export default class DoorwayList extends Component {
     }
     
     render() {
-        return <SortableList items={this.state.items} onSortEnd={this.onSortEnd} lockAxis='y' lockToContainerEdges={true} pressDelay={50} helperclass='helper' />;
+        return <SortableList items={this.state.items} onSortEnd={this.onSortEnd} lockAxis='y' lockToContainerEdges={true} pressDelay={20} helperclass='helper' />;
     }
 }

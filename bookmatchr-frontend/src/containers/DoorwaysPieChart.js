@@ -61,7 +61,7 @@ export default class DoorwaysPieChart extends React.Component{
     
     render(){
         return(
-            <div style={{ height: 400 }}>
+            <div style={{ height: 250 }}>
                 <ResponsivePie
                     data={[
                         {
@@ -109,6 +109,7 @@ export default class DoorwaysPieChart extends React.Component{
                     motionStiffness={90}
                     motionDamping={15}
                     isInteractive={true}
+                    tooltipFormat={".0%"}
                 />
             </div>
         )
