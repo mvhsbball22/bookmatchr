@@ -4,10 +4,10 @@ const {OperationHelper} = require('apac');
 var ENVIRONMENT = require('../../ENVIRONMENT');
 
 const opHelper = new OperationHelper({
-    awsId:     ENVIRONMENT.AWS_ID,
-    awsSecret: ENVIRONMENT.AWS_SECRET,
-    assocId:   ENVIRONMENT.ASSOCIATE_TAG
-  })
+  awsId:     ENVIRONMENT.AWS_ID,
+  awsSecret: ENVIRONMENT.AWS_SECRET,
+  assocId:   ENVIRONMENT.ASSOCIATE_TAG
+});
 
 let returnBook = [];
 
@@ -24,9 +24,9 @@ class Service {
       'Keywords': params.query.search,
       'ItemPage': params.query.page,
       'ResponseGroup': 'ItemAttributes,EditorialReview,Images'
-    })
+    });
 
-    return this.book
+    return this.book;
   }
 
   async get (id, params) {
@@ -35,7 +35,7 @@ class Service {
       'SearchIndex': 'Books',
       'Keywords': 'harry potter',
       'ResponseGroup': 'ItemAttributes'
-    })
+    });
 
     /*
     opHelper.execute('ItemSearch', {

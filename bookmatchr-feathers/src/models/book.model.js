@@ -37,6 +37,10 @@ module.exports = function (app) {
     publishedDate: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    doorwaysScore: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      allowNull: true
     }    
   }, {
     hooks: {

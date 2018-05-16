@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import { NavLink, Route } from "react-router-dom";
 import 'bulma/css/bulma.css';
 
-import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from './aws-exports';
-
 import './App.css';
 
-import BookFetch from './containers/BookFetch.js'
-import Home from './containers/Home.js'
-import ShowBook from './containers/ShowBook.js'
+import BookFetch from './containers/BookFetch.js';
+import Home from './containers/Home.js';
+import ShowBook from './containers/ShowBook.js';
 // import FakeRatings from './containers/FakeRatings.js'
-import About from './containers/About.js'
-import Login from './containers/Login.js'
-import BookSearch from './containers/BookSearch.js'
-import AddBook from './containers/AddBook.js'
-
-Amplify.configure(aws_exports);
-
+import About from './containers/About.js';
+import GoogleLogin from './containers/GoogleLogin.js';
+import FacebookLogin from './containers/FacebookLogin.js';
+import EmailLogin from './containers/EmailLogin.js';
+import BookSearch from './containers/BookSearch.js';
+import AddBook from './containers/AddBook.js';
+import firebase, { auth } from './containers/firebase';
 
 
 class App extends Component {
@@ -25,53 +22,94 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state ={
-      isLoggedIn: false
+      isLoggedIn: false,
+      user: null,
+      dropdownVisible: false
     }
-  }
+    this.logout = this.logout.bind(this);
+    this.showDropdown = this.showDropdown.bind(this);
+    this.hideDropdown = this.hideDropdown.bind(this);
+  } 
 
-  componentWillMount(){
-    console.log('App is about to mount, current logged in state is :' + this.state.isLoggedIn);
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        if (user!== undefined) {
-          this.setState({isLoggedIn: true});
-          console.log('This guy is logged in')
-        }})
+
+  
+  logout() {
+    auth.signOut()
+      .then(() => {
+        this.setState({ user: null });
+      })
+
   }
   
+  authListener() {
+    firebase.auth().onAuthStateChanged((user => {
+      if(user) {
+        this.setState({user})
+      } else {
+        this.setState({user: null})
+      }
 
-  componentDidUpdate(){
-    console.log("About to update, current logged in state is :" + this.state.isLoggedIn)
-    Auth.currentUserInfo()
-        .then((user) => {
-          if ( (user!== undefined) && (this.state.isLoggedIn===false) ) {
-            console.log(JSON.stringify(user.id));
-            this.setState({isLoggedIn: true})
-          }
-          else if ( (user === undefined) && (this.state.isLoggedIn===true) ) {
-            console.log("No user, so logging out");
-            this.setState({isLoggedIn: false})
-          }        
-        })
+    }))
+  }
+
+  showDropdown(event) {
+    event.preventDefault();
+
+    this.setState({showDropdown: true}, () => {
+      document.addEventListener('click', this.hideDropdown);
+    });
+  }
+
+  hideDropdown(event) {
+    if (this.dropdownMenu !== null && !this.dropdownMenu.contains(event.target)) {
+      this.setState({ showDropdown: false }, () => {
+        document.removeEventListener('click', this.hideDropdown);
+      });
+    }
+
+  }
+
+  componentDidMount() {
+    this.authListener();
   }
 
   render() {
 
-    const isLoggedIn = this.state.isLoggedIn;
-
-    const loginButton = isLoggedIn ? (
-
-      <div className="navbar-item" >
-          <NavLink to='/login' style={{color: 'black'}}>Logout</NavLink>
+    const user = this.state.user;
+    const loginLink = user ? (            
+        <div className="navbar-item">  
+          <a onClick={this.logout} style={{color: 'black'}}>Logout</a>            
+        </div>
+    ) : (
+      <div 
+        className={this.state.showDropdown ? "dropdown is-right is-active" : "dropdown is-right"} 
+        onClick={this.showDropdown}
+        ref={(element) => {
+          this.dropdownMenu = element;
+        }}
+      >
+        <div className="dropdown-trigger">
+          <a aria-haspopup="true" aria-controls="dropdown-menu" style={{color: 'black'}}>
+            <span>Login</span>
+            <span className="icon is-small">
+              <i className="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div className="dropdown-menu" id="dropdown-menu2" role="menu">
+          <div className="dropdown-content">
+            <div className="dropdown-item">
+              <GoogleLogin />
+              <FacebookLogin />
+            </div>
+            <hr className="dropdown-divider" />
+            <div className="dropdown-item">
+              <EmailLogin />
+            </div>
+          </div>
+        </div>
       </div>
-      )
-      :
-      (
-      <div className="navbar-item">
-          <NavLink to='/login' style={{color: 'black'}}>Sign In</NavLink>
-      </div>
-
-    )
+    );
 
     return (
       <div className="App">
@@ -93,15 +131,16 @@ class App extends Component {
             <div className="navbar-item">
               <NavLink to='/about' style={{color: 'black'}}>About</NavLink>
             </div>
-            {loginButton}
+            <div className="navbar-item">
+              {loginLink}
+            </div>
           </div>
 
         </nav>
         <Route exact path='/' component={Home} />
         <Route exact path='/about' component={About} />
         <Route exact path='/books' component={BookFetch} />
-        <Route path='/book/:id' component={ShowBook} />
-        <Route exact path='/login' component={Login} />
+        <Route path='/book/:id' render={(props) => ( <ShowBook {...props} user={this.state.user} /> )} />
         <Route path='/search' component={BookSearch} />
         <Route path='/addBook/:id' component={AddBook} />
 

@@ -1,3 +1,11 @@
 .is-padded{
 	padding: 10px;
 }
+
+.max195{
+	max-height: 195px;
+	min-height: 160px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+}

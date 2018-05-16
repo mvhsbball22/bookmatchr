@@ -20,7 +20,11 @@ module.exports = {
       }
     ],
     update: [],
-    patch: [],
+    patch: [
+      function(context){
+        console.log('In pre-patch hook, context is: ' + JSON.stringify(context));
+      }
+    ],
     remove: []
   },
 

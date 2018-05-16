@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BookFetch.css";
 import Truncate from 'react-truncate';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 class BookFetch extends React.Component {
 	constructor(props) {

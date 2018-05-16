@@ -1,3 +1,4 @@
+/**
 import { Authenticator } from 'aws-amplify-react';
 import App from './App.js';
 
@@ -16,3 +17,4 @@ class AppWithAuth extends Component {
 }
 
 export default AppWithAuth;
+*/
