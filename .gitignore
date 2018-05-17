@@ -72,3 +72,11 @@ typings/
 # next.js build output
 .next
 bookmatchr-frontend/src/ENVIRONMENT\.js
+
+secret\.txt
+
+bfg-1\.13\.0\.jar
+
+bookmatchr\.git/
+
+bookmatchr\.git\.bfg-report/
