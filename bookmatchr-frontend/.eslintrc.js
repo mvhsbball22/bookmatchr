@@ -31,5 +31,8 @@ export default {
             "error",
             "always"
         ]
+    };
+    "globals": {
+        "Generator": true
     }
 };

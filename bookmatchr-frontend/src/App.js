@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Route } from "react-router-dom";
+import { NavLink, Route, withRouter } from "react-router-dom";
 import 'bulma/css/bulma.css';
 
 import './App.css';
@@ -14,16 +14,18 @@ import FacebookLogin from './containers/FacebookLogin.js';
 import EmailLogin from './containers/EmailLogin.js';
 import BookSearch from './containers/BookSearch.js';
 import AddBook from './containers/AddBook.js';
+import { inject, observer } from 'mobx-react';
+
 import firebase, { auth } from './containers/firebase';
 
-
+@withRouter
+@inject('sessionStore', 'bookStore', 'userStore')
+@observer
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state ={
-      isLoggedIn: false,
-      user: null,
       dropdownVisible: false
     }
     this.logout = this.logout.bind(this);
@@ -34,19 +36,25 @@ class App extends Component {
 
   
   logout() {
+    const { sessionStore } = this.props;
     auth.signOut()
       .then(() => {
-        this.setState({ user: null });
+        sessionStore.setAuthUser(null);
+        this.forceUpdate();
       })
 
   }
   
+
   authListener() {
+    const { sessionStore } = this.props;
+    
     firebase.auth().onAuthStateChanged((user => {
       if(user) {
-        this.setState({user})
+        sessionStore.setAuthUser(user);
       } else {
-        this.setState({user: null})
+        sessionStore.setAuthUser(null);
+        this.forceUpdate();
       }
 
     }))
@@ -74,8 +82,8 @@ class App extends Component {
   }
 
   render() {
-
-    const user = this.state.user;
+    const { sessionStore } = this.props;
+    const user = sessionStore.authUser;
     const loginLink = user ? (            
         <div className="navbar-item">  
           <a onClick={this.logout} style={{color: 'black'}}>Logout</a>            

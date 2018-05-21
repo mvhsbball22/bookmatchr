@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BookFetch.css";
 import Truncate from 'react-truncate';
+import { observer, inject } from "mobx-react";
 
+
+@inject('bookStore', 'sessionStore')
+@observer
 class BookFetch extends React.Component {
 	constructor(props) {
 		super(props);
@@ -134,41 +138,66 @@ class BookFetch extends React.Component {
 
 		return (
 			<div>
-				<div className="columns is-multiline is-centered">
-					{!isLoading && books.length > 0
-						? books.map(book => {
-								return (
-									<div
-										className="column is-one-third"
-										key={book.title}
-									>
-										<Link to={`/book/${book.isbn10}`}>
-											<div className="card">
-											  <div className="card-content">
-											    <div className="media">
-											      <div className="media-left">
-											        <figure className="image">
-														<img src={book.cover} alt="Placeholder" className="coverImg" />
-													</figure>
-											      </div>
-											      <div className="media-content">
-											        <p className="title is-6">{book.title}</p>
-											        <p className="subtitle is-7">by {book.author}</p>
-											      </div>
-											    </div>
-											    <div className="content has-text-justified">
-											      <Truncate lines={12} ellipsis={<span>...</span>}>	  
-											      	{book.summary}											      
-											      </Truncate>
-											    </div>
-											  </div>
-											</div>	
-										</Link>
-									</div>
-								);
-						  })
-						: null}
-				</div>
+				<div className="columns">
+					<div className="column is-2">
+						<form>
+							<label>
+								<input type="text" />
+									Search
+							</label>
+						</form>
+						<div>
+							Sort by:
+						</div>
+						<div className="level">
+							<div className="level-item">Character</div>
+						</div>
+						<div className="level">
+							<div className="level-item">Language</div>
+						</div>
+						<div className="level">
+							<div className="level-item">Setting</div>
+						</div>
+						<div className="level">
+							<div className="level-item">Story</div>
+						</div>
+					</div>
+					<div className="column is-8" style={{marginTop: "10px"}}>
+						<div className="columns is-multiline is-centered">
+							{!isLoading && books.length > 0
+								? books.map(book => {
+										return (
+											<div
+												className="column is-one-third"
+												key={book.title}
+											>
+												<Link to={`/book/${book.isbn10}`}>
+													<div className="card">
+													<div className="card-content">
+														<div className="media">
+														<div className="media-left">
+															<figure className="image">
+																<img src={book.cover} alt="Placeholder" className="coverImg" />
+															</figure>
+														</div>
+														<div className="media-content">
+															<p className="title is-6">{book.title}</p>
+															<p className="subtitle is-7">by {book.author}</p>
+														</div>
+														</div>
+														<div className="content has-text-justified">
+														<Truncate lines={12} ellipsis={<span>...</span>}>	  
+															{book.summary}											      
+														</Truncate>
+														</div>
+													</div>
+													</div>	
+												</Link>
+											</div>
+										);
+								})
+								: null}
+						</div>
 				{this.state.needPrevPageButton ? (
 					<button onClick={this.prevPage.bind(this)}>
 						Previous Page
@@ -185,6 +214,9 @@ class BookFetch extends React.Component {
 					<div />
 				)}
 			</div>
+			</div>
+		</div>
+				
 		);
 	}
 }

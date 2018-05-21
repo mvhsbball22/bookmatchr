@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 
 import "./ShowBook.css";
 import 'bulma/css/bulma.css';
@@ -7,116 +8,89 @@ import 'bulma/css/bulma.css';
 import DoorwayList from "./DoorwayList";
 import DoorwaysPieChart from './DoorwaysPieChart';
 
-import AmazonBuyButton from '../assets/images/AmazonBuyButton.gif';
+import { observer,  inject } from "mobx-react";
+import { observable } from 'mobx';
+import TitleView from "./TitleView";
+import CoverView from "./CoverView";
+import AuthorsView from "./AuthorsView";
+import AmazonBuyButton from "./AmazonBuyButton";
+import SummaryView from "./SummaryView";
 
+@inject('sessionStore', 'bookStore')
+@observer
+@withRouter
 class ShowBook extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			authors: [],
-			doorwaysScore: [{}]
-		};
-		this.fetchBook = this.fetchBook.bind(this);
-	}
-
-	async fetchBook() {
-
-		// Getting the number of books and setting state to reflect that number
-		fetch(`http://www.bookmatch.tk:3030/book?isbn10=${this.props.match.params.id}`)
-			.then(response => response.json())
-			.then(parsedJSON =>
-				this.setState({
-					id: parsedJSON.data[0].id,
-					title: parsedJSON.data[0].title,
-					authors: parsedJSON.data[0].authors,
-					ISBN10: parsedJSON.data[0].isbn10,
-					ISBN13: parsedJSON.data[0].isbn13,
-					summary: parsedJSON.data[0].summary,
-					cover: parsedJSON.data[0].cover,
-					doorwaysScore: parsedJSON.data[0].doorwaysScore
-				})
-			);
-	}
-
-	handleUpdate() {
-
-	}
+	@observable book = {authors:[]};
 	
-	componentDidMount() {
-		this.fetchBook();
+	async componentDidMount(){
+		const {bookStore} = this.props;
+		await bookStore.setBook(this.props.match.params.id);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.user !== prevState.user) {
-		  return {
-			user: nextProps.user
-		  };
-		}	
-		if (nextProps.doorwaysScore !== prevState.doorwaysScore) {
-			return {
-			  doorwaysScore: nextProps.doorwaysScore
-			};
-		  }	
-		return null;
+	componentWillReceiveProps(nextProps) {
+		const {bookStore, sessionStore} = nextProps;
+		bookStore.setBook(this.props.match.params.id);
+		if (sessionStore.authUser === null) {
+			bookStore.setUserDoorwayRanking(["Story", "Character", "Setting", "Language"]);
+			bookStore.changeRankingDefault(true)
+		}
 	}
 
 	render() {
-		return (
-		<div className="columns">	
-			<div className="column is-2">
-			
-			</div>
-			<div className="column is-8">
-				<div className="level">
-					<div className="column is-one-fifth">
-						<figure className="image is-4x5 is-padded">
-							<img src={this.state.cover} alt="Book Cover" className="max195" />
-						</figure>
-					</div>
-					<div className="column">
-						<div className="columns">
-							<div className="column is-size-4 has-text-left">
-								{this.state.title}
-							</div>
-						</div>
-						<div className="columns">
-							<div className="column has-text-left">
-								<span>by </span>{this.state.authors.map((author, i) => <span key={i}> {author.name}  </span>)}
-							</div>
-						</div>
-						<div className="columns">
-							<div className="column has-text-left">
-									<a href={`http://www.amazon.com/dp/${this.state.ISBN10}/?tag=bookmatchr-20`}><img src={AmazonBuyButton} alt="Buy from Amazon!" /></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="level">					
-					<div className="has-text-justified">
-						{this.state.summary}
-					</div>	
-				</div>
-				<div className="level">
-					<div className="column is-two-fifths">
-						<div>
-							<DoorwaysPieChart doorwaysScoreArray={this.state.doorwaysScore} />
-						</div>
-					</div>
-					<div className="column">
-						<div>
-							<DoorwayList user={this.state.user} id={this.state.id} doorwaysScore={this.state.doorwaysScore} fetchBook={this.fetchBook} />
-						</div>
-					</div>	
-				</div>
-				<div className="column is-narrow">
+		const {bookStore} = this.props;
 
+		return (
+			<div className="columns">	
+				<div className="column is-2">
+				
+				</div>
+				<div className="column is-8">
+					<div className="level">
+						<div className="column is-one-fifth">
+							<figure className="image is-4x5 is-padded">
+								<CoverView />								
+							</figure>
+						</div>
+						<div className="column">
+							<div className="columns">
+								<div className="column is-size-4 has-text-left">
+									<TitleView />
+								</div>
+							</div>
+							<div className="columns">
+								<div className="column has-text-left">
+									<AuthorsView />
+								</div>
+							</div>
+							<div className="columns">
+								<div className="column has-text-left">
+									<AmazonBuyButton />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="level">					
+						<div className="has-text-justified">
+							<SummaryView />
+						</div>	
+					</div>
+					<div className="level">
+						<div className="column is-two-fifths">
+							<div>
+								<DoorwaysPieChart doorwaysScoreArray={bookStore.book.doorwaysScore} />
+							</div>
+						</div>
+						<div className="column">
+							<div>
+								<DoorwayList />
+							</div>
+						</div>	
+					</div>
+					<div className="column is-narrow">
+
+					</div>
 				</div>
 			</div>
-		</div>
 		);
 	}
 }
